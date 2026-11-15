@@ -14,7 +14,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/health', (req, res) => {
-  res.json({ status: 'ok' });
+  res.json({ status: 'ok', version: process.env.APP_VERSION || 'dev' });
 });
 
 app.get('/visits', async (req, res) => {
