@@ -21,9 +21,9 @@ jobs:
         run: npm test
 
       - name: Build Docker image
-        run: docker build -t ghrc.io/heropr4430/final-api:${GITHUB_SHA::7} .
+        run: docker build -t ghcr.io/heropr4430/final-api:${GITHUB_SHA::7} .
 
-      - name: log in to GHRC
+      - name: Log in to GHRC
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
       - name: Push image
