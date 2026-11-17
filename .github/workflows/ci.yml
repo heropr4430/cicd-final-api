@@ -5,6 +5,9 @@ on: push
 jobs:
   test:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
@@ -19,5 +22,12 @@ jobs:
 
       - name: Run tests
         run: npm test
+
       - name: Build Docker image
-        run: docker build -t final-api:ci .
+        run: docker build -t ghcr.io/heropr4430/final-api:${GITHUB_SHA::7} .
+
+      - name: Log in to GHRC
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Push image
+        run: docker push ghcr.io/heropr4430/final-api:${GITHUB_SHA::7}
