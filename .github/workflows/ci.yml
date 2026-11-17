@@ -5,7 +5,7 @@ on: push
 jobs:
   test:
     runs-on: ubuntu-latest
-    permission:
+    permissions:
       contents: read
       packages: write
     steps:
