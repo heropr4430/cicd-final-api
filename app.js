@@ -8,7 +8,7 @@ const redisClient = redis.createClient({
 });
 
 app.get('/', (req, res) => {
-  res.send('Hello updated!');
+  res.send('Hello from VPS!');
 });
 
 app.get('/health', (req, res) => {
