@@ -1,0 +1,30 @@
+name: Deploy production
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag image đã chạy ổn trên staging (7 ký tự)"
+        required: true
+
+jobs:
+  deploy-production:
+    runs-on: self-hosted
+    permissions:
+      packages: read
+    steps:
+      - name: Log in to GHCR
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Deploy production
+        env:
+          TAG: ${{ inputs.tag }}
+        run: |
+          [[ "$TAG" =~ ^[0-9a-f]{7}$ ]] || { echo "Tag sai dạng: $TAG"; exit 1; }
+          cd ~/app
+          sed -i "s/^API_TAG=.*/API_TAG=${TAG}/" .env
+          docker compose pull api
+          docker compose up -d
+          sleep 15
+          curl -fsS localhost:8080/api/health
+  
