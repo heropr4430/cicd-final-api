@@ -10,6 +10,7 @@ on:
 jobs:
   deploy-production:
     runs-on: self-hosted
+    environment: production
     permissions:
       packages: read
     steps:
