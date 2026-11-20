@@ -12,7 +12,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/health', (req, res) => {
-  res.json({ status: 'ok', version: process.env.APP_VERSION || 'dev' });
+  res.json({ status: 'OK', version: process.env.APP_VERSION || 'dev' });
 });
 
 app.get('/visits', async (req, res) => {
